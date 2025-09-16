@@ -25,9 +25,7 @@ public class DiscoverMovieDTO {
     @Data
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class MovieResult {
-        private boolean adult;
         private int id;
-        private String title;
 
         @JsonProperty("original_title")
         private String originalTitle;
