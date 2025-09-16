@@ -25,16 +25,16 @@ public class HibernateConfig {
         return isTest;
     }
 
-    public static EntityManagerFactory getEntityManagerFactory() {
+    public static EntityManagerFactory getEntityManagerFactory(String DBName) {
         if (emf == null)
-            emf = createEMF(getTest());
+            emf = createEMF(getTest(), DBName);
         return emf;
     }
 
-    public static EntityManagerFactory getEntityManagerFactoryForTest() {
+    public static EntityManagerFactory getEntityManagerFactoryForTest(String testDBName) {
         if (emfTest == null){
             setTest(true);
-            emfTest = createEMF(getTest());  // No DB needed for test
+            emfTest = createEMF(getTest(), testDBName);  // No DB needed for test
         }
         return emfTest;
     }
@@ -46,7 +46,7 @@ public class HibernateConfig {
 
     }
 
-    private static EntityManagerFactory createEMF(boolean forTest) {
+    private static EntityManagerFactory createEMF(boolean forTest, String DBName) {
         try {
             Configuration configuration = new Configuration();
             Properties props = new Properties();
@@ -55,9 +55,9 @@ public class HibernateConfig {
             if (forTest) {
                 props = setTestProperties(props);
             } else if (System.getenv("DEPLOYED") != null) {
-                setDeployedProperties(props);
+                setDeployedProperties(props, DBName);
             } else {
-                props = setDevProperties(props);
+                props = setDevProperties(props, DBName);
             }
             configuration.setProperties(props);
             getAnnotationConfiguration(configuration);
@@ -85,19 +85,17 @@ public class HibernateConfig {
         return props;
     }
 
-    private static Properties setDeployedProperties(Properties props) {
-        String DBName = System.getenv("DB_NAME");
+    private static Properties setDeployedProperties(Properties props, String DBName) {
         props.setProperty("hibernate.connection.url", System.getenv("CONNECTION_STR") + DBName);
         props.setProperty("hibernate.connection.username", System.getenv("DB_USERNAME"));
         props.setProperty("hibernate.connection.password", System.getenv("DB_PASSWORD"));
         return props;
     }
 
-    private static Properties setDevProperties(Properties props) {
-        String DBName = Utils.getPropertyValue("DB_NAME", "config.properties");
+    private static Properties setDevProperties(Properties props, String DBName) {
+        props.put("hibernate.connection.url", "jdbc:postgresql://localhost:5432/" + DBName);
         String DB_USERNAME = Utils.getPropertyValue("DB_USERNAME", "config.properties");
         String DB_PASSWORD = Utils.getPropertyValue("DB_PASSWORD", "config.properties");
-        props.put("hibernate.connection.url", "jdbc:postgresql://localhost:5432/" + DBName);
         props.put("hibernate.connection.username", DB_USERNAME);
         props.put("hibernate.connection.password", DB_PASSWORD);
         return props;
@@ -106,8 +104,10 @@ public class HibernateConfig {
     private static Properties setTestProperties(Properties props) {
         props.put("hibernate.connection.driver_class", "org.testcontainers.jdbc.ContainerDatabaseDriver");
         props.put("hibernate.connection.url", "jdbc:tc:postgresql:15.3-alpine3.18:///test_db");
-        props.put("hibernate.connection.username", "postgres");
-        props.put("hibernate.connection.password", "postgres");
+        String TESTDB_USERNAME = Utils.getPropertyValue("TESTDB_USERNAME", "config.properties");
+        String TESTDB_PASSWORD = Utils.getPropertyValue("TESTDB_PASSWORD", "config.properties");
+        props.put("hibernate.connection.username", TESTDB_USERNAME);
+        props.put("hibernate.connection.password", TESTDB_PASSWORD);
         props.put("hibernate.archive.autodetection", "class");
         props.put("hibernate.show_sql", "true");
         props.put("hibernate.hbm2ddl.auto", "create-drop"); // update for production
