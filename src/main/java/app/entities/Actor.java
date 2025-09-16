@@ -20,12 +20,10 @@ public class Actor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String actorsName;
-    private String characterName;
-    private int castId;
 
-    @ManyToMany(mappedBy = "actors")
+    @OneToMany(mappedBy = "actor", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private Set<Movie> movies = new HashSet<>();
+    private Set<MovieActorRelations> movieActorRelations = new HashSet<>();
 }

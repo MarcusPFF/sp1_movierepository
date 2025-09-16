@@ -21,12 +21,11 @@ public class Director {
     private Integer id;
     private String name;
     private double popularity;
-    private String department;
-    private String jobTitle;
 
-    @ManyToMany(mappedBy = "directors")
+    @OneToMany(mappedBy = "director", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private Set<Movie> movies = new HashSet<>();
+    private Set<MovieDirectorRelations> movieDirectorRelations = new HashSet<>();
+
 }
