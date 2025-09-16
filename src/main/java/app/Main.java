@@ -9,7 +9,7 @@ public class Main {
     private static EntityManager em;
 
     public static void main(String[] args) {
-        emf = HibernateConfig.getEntityManagerFactory();
+        emf = HibernateConfig.getEntityManagerFactory("movies");
         em = emf.createEntityManager();
         em.getTransaction().begin();
         em.close();
