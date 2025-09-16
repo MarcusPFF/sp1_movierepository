@@ -27,7 +27,7 @@ public class HibernateConfig {
 
     public static EntityManagerFactory getEntityManagerFactory(String DBName) {
         if (emf == null)
-            emf = createEMF(false, DBName);
+            emf = createEMF(getTest(), DBName);
         return emf;
     }
 
