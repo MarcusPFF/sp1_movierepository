@@ -49,4 +49,14 @@ public class DiscoverMovieDTO {
         @JsonProperty("vote_count")
         private int voteCount;
     }
+
+    @Override
+    public String toString() {
+        return "DiscoverMovieDTO{" +
+                "page=" + page +
+                ", totalPages=" + totalPages +
+                ", totalResults=" + totalResults +
+                ", results.size=" + (results != null ? results.size() : 0) +
+                '}';
+    }
 }
