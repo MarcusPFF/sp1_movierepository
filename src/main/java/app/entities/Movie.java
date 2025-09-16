@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -20,7 +21,6 @@ public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String genreId;
     private String originalLanguage;
     private String originalTitle;
     private String overview;
@@ -29,18 +29,24 @@ public class Movie {
     private double voteAverage;
     private int voteCount;
 
-    @ManyToMany(mappedBy = "movies")
+    @ManyToMany
+    @JoinTable(
+            name = "movie_genre",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id")
+    )
     @Builder.Default
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Set<Genre> genres = new HashSet<>();
 
 
-    @ManyToMany(mappedBy = "movies")
+
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private Set<Director> directors = new HashSet<>();
+    private Set<MovieDirectorRelations> movieDirectorRelations = new HashSet<>();
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
