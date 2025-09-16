@@ -21,10 +21,7 @@ public class DirectorDTO {
         private int id;
 
         @JsonProperty("name")
-        private String actorsName;
-
-        @JsonProperty("character")
-        private String characterName;
+        private String directorsName;
 
         private double popularity;
 
