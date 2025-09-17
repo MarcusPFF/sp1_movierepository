@@ -19,7 +19,7 @@ import java.util.Set;
 
 public class Movie {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String originalLanguage;
     private String originalTitle;

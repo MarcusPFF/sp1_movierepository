@@ -3,6 +3,7 @@ package app.daos;
 import app.entities.Actor;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.GeneratedValue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +22,12 @@ public class ActorsDAO implements IDAO<Actor, Integer> {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             for (Actor actor : actors) {
-                actor.setId(null);
+                //actor.setId(null);
                 em.merge(actor);
-                this.actors.add(actor);
+                if (this.actors.contains(actor)){
+                } else {
+                    this.actors.add(actor);
+                }
             }
             em.getTransaction().commit();
         } catch (Exception e) {
@@ -36,6 +40,8 @@ public class ActorsDAO implements IDAO<Actor, Integer> {
     public Actor create(Actor actor) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
+            //TODO
+            // actor.setId(generateId(String tableName));
             em.merge(actor);
             em.getTransaction().commit();
             this.actors.add(actor);

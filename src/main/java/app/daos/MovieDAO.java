@@ -26,7 +26,7 @@ public class MovieDAO implements IDAO<Movie, Integer> {
         for (Movie movie : movies) {
             Set<Genre> managedGenres = movie.getGenres().stream().map(g -> ensureManagedGenre(em, g)).collect(Collectors.toSet());
             movie.setGenres(managedGenres);
-            movie.setId(null);
+            //movie.setId(null);
             em.merge(movie);
         }
 
@@ -39,7 +39,9 @@ public class MovieDAO implements IDAO<Movie, Integer> {
     public Movie create(Movie movie) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            movie.setId(null);
+            //movie.setId(null);
+            //TODO
+            // movie.setId(generateId(String tableName));
             em.merge(movie);
             em.getTransaction().commit();
             this.movies.add(movie);

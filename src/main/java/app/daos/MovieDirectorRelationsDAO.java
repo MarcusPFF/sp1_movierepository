@@ -22,28 +22,53 @@ public class MovieDirectorRelationsDAO implements IDAO<MovieDirectorRelations, I
     public List<MovieDirectorRelations> create(List<MovieDirectorRelations> relationsList) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-
             List<MovieDirectorRelations> managedRelations = new ArrayList<>();
-
             for (MovieDirectorRelations rel : relationsList) {
-                Movie managedMovie = rel.getMovie() != null ? em.merge(rel.getMovie()) : null;
-                Director managedDirector = rel.getDirector() != null ? em.merge(rel.getDirector()) : null;
-
+                Movie managedMovie = rel.getMovie() != null && rel.getMovie().getId() != null
+                        ? em.find(Movie.class, rel.getMovie().getId())
+                        : null;
+                Director managedDirector = rel.getDirector() != null && rel.getDirector().getId() != null
+                        ? em.find(Director.class, rel.getDirector().getId())
+                        : null;
                 rel.setMovie(managedMovie);
                 rel.setDirector(managedDirector);
-
-                MovieDirectorRelations managedRel = em.merge(rel);
-                managedRelations.add(managedRel);
-                this.relations.add(managedRel);
+                em.persist(rel);
+                managedRelations.add(rel);
+                this.relations.add(rel);
             }
-
             em.getTransaction().commit();
             return managedRelations;
-
         } catch (Exception e) {
             throw new RuntimeException("Could not persist movie-director relations", e);
         }
     }
+
+//    @Override
+//    public List<MovieDirectorRelations> create(List<MovieDirectorRelations> relationsList) {
+//        try (EntityManager em = emf.createEntityManager()) {
+//            em.getTransaction().begin();
+//
+//            List<MovieDirectorRelations> managedRelations = new ArrayList<>();
+//
+//            for (MovieDirectorRelations rel : relationsList) {
+//                Movie managedMovie = rel.getMovie() != null ? em.merge(rel.getMovie()) : null;
+//                Director managedDirector = rel.getDirector() != null ? em.merge(rel.getDirector()) : null;
+//
+//                rel.setMovie(managedMovie);
+//                rel.setDirector(managedDirector);
+//
+//                MovieDirectorRelations managedRel = em.merge(rel);
+//                managedRelations.add(managedRel);
+//                this.relations.add(managedRel);
+//            }
+//
+//            em.getTransaction().commit();
+//            return managedRelations;
+//
+//        } catch (Exception e) {
+//            throw new RuntimeException("Could not persist movie-director relations", e);
+//        }
+//    }
 
     @Override
     public MovieDirectorRelations create(MovieDirectorRelations relation) {

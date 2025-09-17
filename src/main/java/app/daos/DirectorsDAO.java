@@ -21,9 +21,12 @@ public class DirectorsDAO implements IDAO<Director, Integer> {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             for (Director director : directors) {
-                director.setId(null);
+                //director.setId(null);
                 em.merge(director);
-                this.directors.add(director);
+                if (this.directors.contains(director)){
+                } else {
+                    this.directors.add(director);
+                }
             }
             em.getTransaction().commit();
         } catch (Exception e) {
@@ -36,6 +39,8 @@ public class DirectorsDAO implements IDAO<Director, Integer> {
     public Director create(Director director) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
+            //TODO
+            // director.setId(generateId(String tableName));
             em.persist(director);
             em.getTransaction().commit();
             this.directors.add(director);

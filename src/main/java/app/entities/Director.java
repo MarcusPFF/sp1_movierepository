@@ -17,7 +17,7 @@ import java.util.Set;
 
 public class Director {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String directorsName;
     private double popularity;
