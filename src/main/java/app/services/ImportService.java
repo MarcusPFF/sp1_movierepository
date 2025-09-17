@@ -10,6 +10,7 @@ import app.mappers.DirectorMapper;
 import app.mappers.MovieMapper;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -24,49 +25,50 @@ public class ImportService {
         FetchTools newFetch = new FetchTools();
         List<DiscoverMovieDTO> movieDtos = newFetch.getAllDanishMovies();
 
-        List<Movie> movies = new ArrayList<>();
-        List<Director> directors = new ArrayList<>();
-        List<Actor> actors = new ArrayList<>();
-        List<Genre> genres = new ArrayList<>();
-        List<MovieActorRelations> movieActorRelations = new ArrayList<>();
-        List<MovieDirectorRelations> movieDirectorRelations = new ArrayList<>();
+        // laver listen trådsikker fordi flere threads tilføjer til den samtidig
+        List<Movie> movies = Collections.synchronizedList(new ArrayList<>());
+        List<Director> directors = Collections.synchronizedList(new ArrayList<>());
+        List<Actor> actors = Collections.synchronizedList(new ArrayList<>());
+        List<Genre> genres = Collections.synchronizedList(new ArrayList<>());
+        List<MovieActorRelations> movieActorRelations = Collections.synchronizedList(new ArrayList<>());
+        List<MovieDirectorRelations> movieDirectorRelations = Collections.synchronizedList(new ArrayList<>());
 
         List<Callable<Void>> tasks = new ArrayList<>();
         for (DiscoverMovieDTO dto : movieDtos) {
             for (DiscoverMovieDTO.MovieResult movieResult : dto.getResults()) {
                 tasks.add(() -> {
-                    // --- Alt dette sker i én tråd pr. movieResult ---
+                    // --- Alt dette sker i en tråd pr movieresult
                     Movie movie = MovieMapper.toEntity(movieResult);
 
 
-                // --- Hent relaterede ting ---
-                List<DirectorDTO.Director> directorsForMovie = newFetch.getDirectorsForMovieByMovieId(movieResult.getId());
+                    // --- Hent relaterede ting ---
+                    List<DirectorDTO.Director> directorsForMovie = newFetch.getDirectorsForMovieByMovieId(movieResult.getId());
 
-                List<ActorDTO.Actor> actorsForMovie = newFetch.getActorsForMovieByMovieId(movieResult.getId());
+                    List<ActorDTO.Actor> actorsForMovie = newFetch.getActorsForMovieByMovieId(movieResult.getId());
 
-                List<GenreDTO.Genre> genresForMovie = newFetch.getGenresForMovieByMovieId(movieResult.getId());
+                    List<GenreDTO.Genre> genresForMovie = newFetch.getGenresForMovieByMovieId(movieResult.getId());
 
 
-                // --- Map og lav relationer ---
-                for (DirectorDTO.Director d : directorsForMovie) {
-                    Director director = DirectorMapper.toEntity(d);
-                    directors.add(director);
-                    movieDirectorRelations.add(toEntity(movie, director, d.getJobTitle()));
-                }
+                    // --- Map og lav relationer ---
+                    for (DirectorDTO.Director d : directorsForMovie) {
+                        Director director = DirectorMapper.toEntity(d);
+                        directors.add(director);
+                        movieDirectorRelations.add(toEntity(movie, director, d.getJobTitle()));
+                    }
 
-                for (ActorDTO.Actor a : actorsForMovie) {
-                    Actor actor = ActorMapper.toEntity(a);
-                    actors.add(actor);
-                    movieActorRelations.add(toEntity(movie, actor, a.getCastId()));
-                }
+                    for (ActorDTO.Actor a : actorsForMovie) {
+                        Actor actor = ActorMapper.toEntity(a);
+                        actors.add(actor);
+                        movieActorRelations.add(toEntity(movie, actor, a.getCastId()));
+                    }
 
-                for (GenreDTO.Genre g : genresForMovie) {
-                    movie.getGenres().add(toEntity(g));
-                }
-                movies.add(movie);
+                    for (GenreDTO.Genre g : genresForMovie) {
+                        movie.getGenres().add(toEntity(g));
+                    }
+                    movies.add(movie);
                     System.out.println(movie.getOriginalTitle() + " is fetched");
-                return null;
-            });
+                    return null;
+                });
             }
         }
         // Kør tasks i en tråd-pool
@@ -80,10 +82,10 @@ public class ImportService {
             try {
                 f.get();
             } catch (ExecutionException e) {
-                e.printStackTrace(); // eller log mere elegant
+                e.printStackTrace();
             }
         }
         executor.shutdown();
-        return new AllEntitiesLists(directors, genres, actors, movies, movieActorRelations, movieDirectorRelations);
+        return new AllEntitiesLists(directors, actors, movies, movieActorRelations, movieDirectorRelations);
     }
 }

@@ -23,13 +23,14 @@ public class Movie {
     private Integer id;
     private String originalLanguage;
     private String originalTitle;
+    @Column(columnDefinition = "TEXT")
     private String overview;
     private double popularity;
     private LocalDate releaseDate;
     private double voteAverage;
     private int voteCount;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "movie_genre",
             joinColumns = @JoinColumn(name = "movie_id"),
