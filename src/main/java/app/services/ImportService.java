@@ -59,7 +59,7 @@ public class ImportService {
                     for (ActorDTO.Actor a : actorsForMovie) {
                         Actor actor = ActorMapper.toEntity(a);
                         actors.add(actor);
-                        movieActorRelations.add(toEntity(movie, actor, a.getCastId()));
+                        movieActorRelations.add(toEntity(movie, actor, a.getCastId(), a.getCharacterName()));
                     }
 
                     for (GenreDTO.Genre g : genresForMovie) {
