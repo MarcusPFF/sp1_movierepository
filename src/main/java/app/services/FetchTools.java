@@ -100,7 +100,6 @@ public class FetchTools {
     }
 
     public List<DirectorDTO.Director> getDirectorsForMovieByMovieId(Integer movieId) {
-        //System.out.println("Starting director for movie by movieid: " + movieId + " fetch..." );
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         List<DirectorDTO.Director> directors = new ArrayList<>();
@@ -126,7 +125,6 @@ public class FetchTools {
 
             List<DirectorDTO.Director> directorList = directorDTO.getDirectors();
 
-
             for (DirectorDTO.Director director : directorList) {
                 if (director.getDepartment().equalsIgnoreCase("Directing")) directors.add(director);
             }
@@ -140,7 +138,6 @@ public class FetchTools {
     }
 
     public List<ActorDTO.Actor> getActorsForMovieByMovieId(Integer movieId) {
-        //System.out.println("Starting Actors for movie by movieid: " + movieId + " fetch..." );
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         List<ActorDTO.Actor> actors = new ArrayList<>();
@@ -213,52 +210,4 @@ public class FetchTools {
 
         return genres;
     }
-
-//    public List<DiscoverMovieDTO> getAllDanishMovies() {
-//        System.out.println("Starting fetch...");
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        objectMapper.registerModule(new JavaTimeModule());
-//        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-//        List<DiscoverMovieDTO> discoverMovieDTOS = new ArrayList<>();
-//        int page = 1;
-//        boolean hasMore = true;
-//
-//        try {
-//            while (hasMore) {
-//                String url = baseUrl + "/discover/movie?include_adult=false&include_video=false&language=en-" +
-//                        "US&page=1&release_date.gte=2020-01-01&release_date.lte=2025-09-16&sort_by=popularity.desc&" +
-//                        "with_original_language=da&api_key=" + apiKey +
-//                        "&vote_average.gte=0.0&vote_average.lte=10.0&page=" + page +
-//                        "&sort_by=release_date.desc";
-//
-//                HttpClient client = HttpClient.newHttpClient();
-//
-//                HttpRequest request = HttpRequest.newBuilder()
-//                        .uri(new URI(url))
-//                        .GET()
-//                        .build();
-//
-//                HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-//                JsonNode rootNode = objectMapper.readTree(response.body());
-//
-//                if (response.statusCode() == 200) {
-//                    DiscoverMovieDTO discoverMovieDTO = objectMapper.readValue(response.body(), DiscoverMovieDTO.class);
-//                    discoverMovieDTOS.add(discoverMovieDTO);
-//
-//                    if (page >= rootNode.path("total_pages").asInt()) {
-//                        hasMore = false;
-//                    } else {
-//                        page++;
-//                    }
-//                } else {
-//                    System.out.println("Failed request, status: " + response.statusCode());
-//                    hasMore = false;
-//                }
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        return discoverMovieDTOS;
-//    }
 }

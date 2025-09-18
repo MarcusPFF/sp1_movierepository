@@ -33,7 +33,7 @@ public class HibernateConfig {
     public static EntityManagerFactory getEntityManagerFactoryForTest(String testDBName) {
         if (emfTest == null){
             setTest(true);
-            emfTest = createEMF(getTest(), testDBName);  // No DB needed for test
+            emfTest = createEMF(getTest(), testDBName);
         }
         return emfTest;
     }
@@ -53,7 +53,7 @@ public class HibernateConfig {
         try {
             Configuration configuration = new Configuration();
             Properties props = new Properties();
-            // Set the properties
+
             setBaseProperties(props);
             if (forTest) {
                 props = setTestProperties(props);
@@ -80,7 +80,7 @@ public class HibernateConfig {
 
     private static Properties setBaseProperties(Properties props) {
         props.put("hibernate.connection.driver_class", "org.postgresql.Driver");
-        props.put("hibernate.hbm2ddl.auto", "create");  // set to "update" when in production
+        props.put("hibernate.hbm2ddl.auto", "update");
         props.put("hibernate.current_session_context_class", "thread");
         props.put("hibernate.show_sql", "false");
         props.put("hibernate.format_sql", "false");
