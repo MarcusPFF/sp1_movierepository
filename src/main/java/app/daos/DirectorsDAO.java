@@ -24,12 +24,10 @@ public class DirectorsDAO implements IDAO<Director, Integer> {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             for (Director director : directors) {
-                //director.setId(null);
                 em.merge(director);
-                if (this.directors.contains(director)){
-                } else {
-                    this.directors.add(director);
-                }
+
+                if (!this.directors.contains(director)) this.directors.add(director);
+
             }
             em.getTransaction().commit();
         } catch (Exception e) {

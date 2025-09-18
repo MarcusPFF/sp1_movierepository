@@ -36,7 +36,7 @@ public class MovieDirectorRelationsDAO implements IDAO<MovieDirectorRelations, I
                 rel.setMovie(managedMovie);
                 rel.setDirector(managedDirector);
 
-                em.persist(rel);
+                em.merge(rel);
                 managedRelations.add(rel);
                 this.relations.add(rel);
             }
@@ -49,37 +49,12 @@ public class MovieDirectorRelationsDAO implements IDAO<MovieDirectorRelations, I
         }
     }
 
-//    @Override
-//    public List<MovieDirectorRelations> create(List<MovieDirectorRelations> relationsList) {
-//        try (EntityManager em = emf.createEntityManager()) {
-//            em.getTransaction().begin();
-//
-//            List<MovieDirectorRelations> managedRelations = new ArrayList<>();
-//
-//            for (MovieDirectorRelations rel : relationsList) {
-//                Movie managedMovie = rel.getMovie() != null ? em.merge(rel.getMovie()) : null;
-//                Director managedDirector = rel.getDirector() != null ? em.merge(rel.getDirector()) : null;
-//
-//                rel.setMovie(managedMovie);
-//                rel.setDirector(managedDirector);
-//
-//                MovieDirectorRelations managedRel = em.merge(rel);
-//                managedRelations.add(managedRel);
-//                this.relations.add(managedRel);
-//            }
-//
-//            em.getTransaction().commit();
-//            return managedRelations;
-//
-//        } catch (Exception e) {
-//            throw new RuntimeException("Could not persist movie-director relations", e);
-//        }
-//    }
 
     @Override
     public MovieDirectorRelations create(MovieDirectorRelations relation) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
+
             if (relation.getMovie() != null && relation.getMovie().getId() != null) {
                 Movie movieRef = em.find(Movie.class, relation.getMovie().getId());
                 relation.setMovie(movieRef);
@@ -90,10 +65,13 @@ public class MovieDirectorRelationsDAO implements IDAO<MovieDirectorRelations, I
                 relation.setDirector(directorRef);
                 if (directorRef != null) directorRef.getMovieDirectorRelations().add(relation);
             }
+
             em.persist(relation);
             em.getTransaction().commit();
+
             this.relations.add(relation);
             return relation;
+
         } catch (Exception e) {
             throw new RuntimeException("Could not persist movie-director relation", e);
         }

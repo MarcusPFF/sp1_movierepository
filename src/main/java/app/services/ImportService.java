@@ -29,7 +29,6 @@ public class ImportService {
         List<Movie> movies = Collections.synchronizedList(new ArrayList<>());
         List<Director> directors = Collections.synchronizedList(new ArrayList<>());
         List<Actor> actors = Collections.synchronizedList(new ArrayList<>());
-        List<Genre> genres = Collections.synchronizedList(new ArrayList<>());
         List<MovieActorRelations> movieActorRelations = Collections.synchronizedList(new ArrayList<>());
         List<MovieDirectorRelations> movieDirectorRelations = Collections.synchronizedList(new ArrayList<>());
 

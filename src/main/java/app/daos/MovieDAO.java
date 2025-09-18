@@ -29,7 +29,6 @@ public class MovieDAO implements IDAO<Movie, Integer> {
         for (Movie movie : movies) {
             Set<Genre> managedGenres = movie.getGenres().stream().map(g -> ensureManagedGenre(em, g)).collect(Collectors.toSet());
             movie.setGenres(managedGenres);
-            //movie.setId(null);
             em.merge(movie);
         }
 

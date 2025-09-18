@@ -17,12 +17,11 @@ import java.util.Set;
 
 public class Actor {
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String actorsName;
     private double popularity;
 
-    @OneToMany(mappedBy = "actor", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "actor", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
     @Builder.Default
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

@@ -22,17 +22,19 @@ public class DaoHandler {
     }
 
     public void executeDatabaseOperations() {
-        if (allEntitiesLists == null)
-            return;
+        if (allEntitiesLists == null) return;
+
         List<Movie> movies = allEntitiesLists.getMovies();
         List<Actor> actors = allEntitiesLists.getActors();
         List<Director> directors = allEntitiesLists.getDirectors();
         List<MovieActorRelations> mar = allEntitiesLists.getMovieActorRelations();
         List<MovieDirectorRelations> mdr = allEntitiesLists.getMovieDirectorRelations();
+
         if (!actors.isEmpty()) actorsDAO.create(actors);
         if (!directors.isEmpty()) directorsDAO.create(directors);
         if (!movies.isEmpty()) movieDAO.create(movies);
         if (!mar.isEmpty()) movieActorRelationsDAO.create(mar);
         if (!mdr.isEmpty()) movieDirectorRelationsDAO.create(mdr);
+        actorsDAO.create(Actor.builder().id(999999999).actorsName("Jonathan Kudsk").popularity(99.999).build());
     }
 }
