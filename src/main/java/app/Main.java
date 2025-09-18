@@ -35,8 +35,8 @@ public class Main {
         //daohandler.executeDatabaseOperations();
         //List<Movie> movies = mm.top10HighestRatedMovies(emf);
         //List<Movie> movies = mm.top10LowestRatedMovies(emf);
-        List<Movie> movies = mm.top10PopularMovies(emf);
-        movies.stream().forEach(System.out::println);
+        //List<Movie> movies = mm.top10PopularMovies(emf);
+        //movies.stream().forEach(System.out::println);
         endTime = System.currentTimeMillis();
         System.out.println("Database operations runtime: " + (endTime - startTime) + " ms");
 
