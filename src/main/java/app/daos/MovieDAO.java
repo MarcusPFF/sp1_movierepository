@@ -2,6 +2,7 @@ package app.daos;
 
 import app.entities.Genre;
 import app.entities.Movie;
+import app.utils.GenerateNextId;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
@@ -13,10 +14,12 @@ import java.util.stream.Collectors;
 public class MovieDAO implements IDAO<Movie, Integer> {
     private final EntityManagerFactory emf;
     private final List<Movie> movies;
+    private final GenerateNextId gni;
 
     public MovieDAO(EntityManagerFactory emf) {
         this.emf = emf;
         movies = new ArrayList<>();
+        gni = new GenerateNextId(emf);
     }
 
     public List<Movie> create(List<Movie> movies) {
@@ -39,9 +42,8 @@ public class MovieDAO implements IDAO<Movie, Integer> {
     public Movie create(Movie movie) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            //movie.setId(null);
-            //TODO
-            // movie.setId(generateId(String tableName));
+            //TODO test om denne metode virker nu med det nye kode neden under.
+            movie.setId(gni.generateNextId(Movie.class));
             em.merge(movie);
             em.getTransaction().commit();
             this.movies.add(movie);

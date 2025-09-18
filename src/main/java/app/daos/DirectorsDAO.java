@@ -1,6 +1,7 @@
 package app.daos;
 
 import app.entities.Director;
+import app.utils.GenerateNextId;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
@@ -10,10 +11,12 @@ import java.util.List;
 public class DirectorsDAO implements IDAO<Director, Integer> {
     private final EntityManagerFactory emf;
     private final List<Director> directors;
+    private final GenerateNextId gni;
 
     public DirectorsDAO(EntityManagerFactory emf) {
         this.emf = emf;
         this.directors = new ArrayList<>();
+        gni = new GenerateNextId(emf);
     }
 
     @Override
@@ -39,8 +42,8 @@ public class DirectorsDAO implements IDAO<Director, Integer> {
     public Director create(Director director) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            //TODO
-            // director.setId(generateId(String tableName));
+            //TODO test om denne metode virker nu med det nye kode neden under.
+            director.setId(gni.generateNextId(Director.class));
             em.persist(director);
             em.getTransaction().commit();
             this.directors.add(director);

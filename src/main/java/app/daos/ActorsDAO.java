@@ -1,6 +1,7 @@
 package app.daos;
 
 import app.entities.Actor;
+import app.utils.GenerateNextId;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.GeneratedValue;
@@ -11,10 +12,12 @@ import java.util.List;
 public class ActorsDAO implements IDAO<Actor, Integer> {
     private final EntityManagerFactory emf;
     private final List<Actor> actors;
+    private final GenerateNextId gni;
 
     public ActorsDAO(EntityManagerFactory emf) {
         this.emf = emf;
         this.actors = new ArrayList<>();
+        gni = new GenerateNextId(emf);
     }
 
     @Override
@@ -40,8 +43,8 @@ public class ActorsDAO implements IDAO<Actor, Integer> {
     public Actor create(Actor actor) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            //TODO
-            // actor.setId(generateId(String tableName));
+            //TODO test om denne metode virker nu med det nye kode neden under.
+            actor.setId(gni.generateNextId(Actor.class));
             em.merge(actor);
             em.getTransaction().commit();
             this.actors.add(actor);

@@ -22,7 +22,9 @@ public class MovieActorRelationsDAO implements IDAO<MovieActorRelations, Integer
     public List<MovieActorRelations> create(List<MovieActorRelations> relationsList) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
+
             List<MovieActorRelations> managedRelations = new ArrayList<>();
+
             for (MovieActorRelations rel : relationsList) {
                 Movie managedMovie = rel.getMovie() != null && rel.getMovie().getId() != null
                         ? em.find(Movie.class, rel.getMovie().getId())
@@ -30,14 +32,18 @@ public class MovieActorRelationsDAO implements IDAO<MovieActorRelations, Integer
                 Actor managedActor = rel.getActor() != null && rel.getActor().getId() != null
                         ? em.find(Actor.class, rel.getActor().getId())
                         : null;
+
                 rel.setMovie(managedMovie);
                 rel.setActor(managedActor);
+
                 em.persist(rel);
                 managedRelations.add(rel);
                 this.relations.add(rel);
             }
+
             em.getTransaction().commit();
             return managedRelations;
+
         } catch (Exception e) {
             throw new RuntimeException("Could not persist movie-actor relations", e);
         }

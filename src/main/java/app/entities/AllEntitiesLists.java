@@ -1,5 +1,7 @@
 package app.entities;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import lombok.Getter;
 
 import java.util.List;
