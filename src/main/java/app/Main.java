@@ -1,12 +1,15 @@
 package app;
 
 import app.config.HibernateConfig;
+import app.entities.*;
 import app.mappers.ActorMapper;
 import app.mappers.DirectorMapper;
 import app.mappers.GenreMapper;
 import app.mappers.MovieMapper;
 import app.services.ImportService;
 import jakarta.persistence.EntityManagerFactory;
+
+import java.util.List;
 
 
 public class Main {
@@ -45,7 +48,7 @@ public class Main {
 //        List<Movie> movies = mm.listMoviesByGenreName("Romance", emf);
 //        movies.stream().forEach(System.out::println);
 //
-//        List<Genre> genres = gm.listOfAllGenres(emf);
+//       List<Genre> genres = gm.listOfAllGenres(emf);
 //        genres.stream().forEach(System.out::println);
 //
 //        List<Director> directors = dm.listOfAllDirectors(emf);
