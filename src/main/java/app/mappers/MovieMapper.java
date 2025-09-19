@@ -54,8 +54,7 @@ public class MovieMapper {
 
         try (EntityManager em = emf.createEntityManager()) {
             return em.createQuery("SELECT DISTINCT m FROM Movie m " + "JOIN m.genres g " + "WHERE LOWER(g.genreName) = :name " + "ORDER BY m.originalTitle", Movie.class)
-                    .setParameter("name", genreName
-                            .trim().toLowerCase())
+                    .setParameter("name", genreName.trim().toLowerCase())
                     .getResultList();
         }
     }
