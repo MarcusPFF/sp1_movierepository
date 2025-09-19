@@ -4,7 +4,9 @@ import app.dtos.DiscoverMovieDTO;
 import app.entities.Movie;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.TypedQuery;
 
+import java.util.Collections;
 import java.util.List;
 
 public class MovieMapper {
@@ -49,5 +51,29 @@ public class MovieMapper {
         }
 
     }
+
+    public List<Movie> listAllMovies(EntityManagerFactory emf) {
+        try (EntityManager em = emf.createEntityManager()) {
+            return em.createQuery("SELECT m FROM Movie m", Movie.class)
+                    .getResultList();
+        }
+    }
+
+    public List<Movie> findMoviesByTitle(String title, EntityManagerFactory emf) {
+        if (title == null || title.trim().isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        String pattern = "%" + title.trim().toLowerCase() + "%";
+
+        try (EntityManager em = emf.createEntityManager()) {
+            TypedQuery<Movie> q = em.createQuery(
+                    "SELECT m FROM Movie m WHERE LOWER(m.originalTitle) LIKE :pattern", Movie.class);
+            q.setParameter("pattern", pattern);
+
+            return q.getResultList();
+        }
+    }
+
 
 }

@@ -36,6 +36,8 @@ public class Main {
         //List<Movie> movies = mm.top10HighestRatedMovies(emf);
         //List<Movie> movies = mm.top10LowestRatedMovies(emf);
         //List<Movie> movies = mm.top10PopularMovies(emf);
+        //List<Movie> movies = mm.listAllMovies(emf);
+        //List<Movie> movies = mm.findMoviesByTitle("facaden", emf);
         //movies.stream().forEach(System.out::println);
         endTime = System.currentTimeMillis();
         System.out.println("Database operations runtime: " + (endTime - startTime) + " ms");
