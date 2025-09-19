@@ -25,9 +25,9 @@ public class GenreMapper {
             List<Genre> result = em.createQuery("SELECT g FROM Movie m JOIN m.genres g", Genre.class)
                     .getResultList();
             // Fjern dubletter
-            Set<String> seen = new HashSet<>();
+            Set<String> fjernGenreDub = new HashSet<>();
             return result.stream()
-                    .filter(g -> seen.add(g.getGenreName()))
+                    .filter(g -> fjernGenreDub.add(g.getGenreName()))
                     .sorted(Comparator.comparing(Genre::getGenreName))
                     .toList();
         }
