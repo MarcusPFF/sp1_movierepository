@@ -42,13 +42,16 @@ public class Main {
         System.out.println("Executing database Operations...");
         //daohandler.executeDatabaseOperations();
 
+
 //        List<Movie> movies = mm.top10HighestRatedMovies(emf);
 //        List<Movie> movies = mm.top10LowestRatedMovies(emf);
 //        List<Movie> movies = mm.top10PopularMovies(emf);
 //        List<Movie> movies = mm.listMoviesByGenreName("Romance", emf);
+//        List<Movie> movies = mm.listAllMovies(emf);
+//        List<Movie> movies = mm.findMoviesByTitle("facaden", emf);
 //        movies.stream().forEach(System.out::println);
 //
-//       List<Genre> genres = gm.listOfAllGenres(emf);
+//        List<Genre> genres = gm.listOfAllGenres(emf);
 //        genres.stream().forEach(System.out::println);
 //
 //        List<Director> directors = dm.listOfAllDirectors(emf);
@@ -56,6 +59,7 @@ public class Main {
 //
 //        List<Actor> actors = am.listOfAllActors(emf);
 //        actors.stream().forEach(System.out::println);
+
 
         endTime = System.currentTimeMillis();
         System.out.println("Database operations runtime: " + (endTime - startTime) + " ms");
