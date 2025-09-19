@@ -11,7 +11,11 @@ import java.util.List;
 public class ActorMapper {
 
     public static Actor toEntity(ActorDTO.Actor actor) {
-        return Actor.builder().id(actor.getId()).actorsName(actor.getActorsName()).popularity(actor.getPopularity()).build();
+        return Actor.builder()
+                .id(actor.getId())
+                .actorsName(actor.getActorsName())
+                .popularity(actor.getPopularity())
+                .build();
     }
 
     public List<Actor> listOfAllActors(EntityManagerFactory emf) {

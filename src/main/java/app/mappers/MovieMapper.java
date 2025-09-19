@@ -10,7 +10,16 @@ import java.util.List;
 public class MovieMapper {
 
     public static Movie toEntity(DiscoverMovieDTO.MovieResult dto) {
-        return Movie.builder().id(dto.getId()).overview(dto.getOverview()).popularity(dto.getPopularity()).originalLanguage(dto.getOriginalLanguage()).originalTitle(dto.getOriginalTitle()).releaseDate(dto.getReleaseDate()).voteAverage(dto.getVoteAverage()).voteCount(dto.getVoteCount()).build();
+        return Movie.builder()
+                .id(dto.getId())
+                .overview(dto.getOverview())
+                .popularity(dto.getPopularity())
+                .originalLanguage(dto.getOriginalLanguage())
+                .originalTitle(dto.getOriginalTitle())
+                .releaseDate(dto.getReleaseDate())
+                .voteAverage(dto.getVoteAverage())
+                .voteCount(dto.getVoteCount())
+                .build();
     }
 
     public List<Movie> top10HighestRatedMovies(EntityManagerFactory emf) {
