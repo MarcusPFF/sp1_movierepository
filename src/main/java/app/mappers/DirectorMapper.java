@@ -20,7 +20,8 @@ public class DirectorMapper {
 
     public List<Director> listOfAllDirectors(EntityManagerFactory emf) {
         try (EntityManager em = emf.createEntityManager()) {
-            return em.createQuery("SELECT DISTINCT d FROM Movie m " + "JOIN m.movieDirectorRelations mdr " + "JOIN mdr.director d " + "ORDER BY d.directorsName", Director.class).getResultList();
+            return em.createQuery("SELECT DISTINCT d FROM Movie m " + "JOIN m.movieDirectorRelations mdr " + "JOIN mdr.director d " + "ORDER BY d.directorsName", Director.class)
+                    .getResultList();
         }
     }
 

@@ -20,7 +20,8 @@ public class ActorMapper {
 
     public List<Actor> listOfAllActors(EntityManagerFactory emf) {
         try (EntityManager em = emf.createEntityManager()) {
-            return em.createQuery("SELECT DISTINCT a FROM Movie m " + "JOIN m.movieActorRelations mar " + "JOIN mar.actor a " + "ORDER BY a.actorsName", Actor.class).getResultList();
+            return em.createQuery("SELECT DISTINCT a FROM Movie m " + "JOIN m.movieActorRelations mar " + "JOIN mar.actor a " + "ORDER BY a.actorsName", Actor.class)
+                    .getResultList();
         }
     }
 }
