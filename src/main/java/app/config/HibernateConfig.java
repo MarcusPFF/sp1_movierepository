@@ -24,6 +24,8 @@ public class HibernateConfig {
         return isTest;
     }
 
+    public static void setEmfTest(EntityManagerFactory emf){ emfTest = null;}
+
     public static EntityManagerFactory getEntityManagerFactory(String DBName) {
         if (emf == null)
             emf = createEMF(getTest(), DBName);
@@ -105,15 +107,16 @@ public class HibernateConfig {
     }
 
     private static Properties setTestProperties(Properties props) {
-        props.put("hibernate.connection.driver_class", "org.testcontainers.jdbc.ContainerDatabaseDriver");
-        props.put("hibernate.connection.url", "jdbc:tc:postgresql:15.3-alpine3.18:///test_db");
+        props.put("hibernate.connection.driver_class", "org.h2.Driver");
+        props.put("hibernate.connection.url", "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE");
         String TESTDB_USERNAME = Utils.getPropertyValue("TESTDB_USERNAME", "config.properties");
         String TESTDB_PASSWORD = Utils.getPropertyValue("TESTDB_PASSWORD", "config.properties");
         props.put("hibernate.connection.username", TESTDB_USERNAME);
         props.put("hibernate.connection.password", TESTDB_PASSWORD);
+        props.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
         props.put("hibernate.archive.autodetection", "class");
         props.put("hibernate.show_sql", "true");
-        props.put("hibernate.hbm2ddl.auto", "create-drop"); // update for production
+        props.put("hibernate.hbm2ddl.auto", "create-drop");
         return props;
     }
 }
