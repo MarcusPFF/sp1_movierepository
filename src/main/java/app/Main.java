@@ -5,8 +5,10 @@ import app.utils.MovieRepoApp;
 import jakarta.persistence.EntityManagerFactory;
 
 public class Main {
+    private static EntityManagerFactory emf;
+
     public static void main(String[] args) throws InterruptedException {
-        EntityManagerFactory emf = HibernateConfig.getEntityManagerFactory("movies");
+        emf = HibernateConfig.getEntityManagerFactory("movies");
         MovieRepoApp movieRepo = new MovieRepoApp(emf);
 
         /*
