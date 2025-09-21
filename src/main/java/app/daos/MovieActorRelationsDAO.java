@@ -36,7 +36,7 @@ public class MovieActorRelationsDAO implements IDAO<MovieActorRelations, Integer
                 rel.setMovie(managedMovie);
                 rel.setActor(managedActor);
 
-                em.merge(rel);
+                em.persist(rel);
                 managedRelations.add(rel);
                 this.relations.add(rel);
             }
