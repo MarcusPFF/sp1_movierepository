@@ -35,6 +35,7 @@ public class DaoHandler {
         if (!movies.isEmpty()) movieDAO.create(movies);
         if (!mar.isEmpty()) movieActorRelationsDAO.create(mar);
         if (!mdr.isEmpty()) movieDirectorRelationsDAO.create(mdr);
-        actorsDAO.create(Actor.builder().id(999999999).actorsName("Jonathan Kudsk").popularity(99.999).build());
+        actorsDAO.create(Actor.builder().id(999999999).actorsName("Marcus Forsberg").popularity(99.999).build());
+        actorsDAO.create(Actor.builder().id(999999998).actorsName("Jonathan Kudsk").popularity(99.999).build());
     }
 }

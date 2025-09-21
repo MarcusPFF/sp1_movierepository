@@ -18,7 +18,6 @@ class ActorsDAOTest {
     @BeforeEach
     void setUp() {
         HibernateConfig.setTest(true);
-        // Use unique database name for each test to avoid conflicts
         String testDbName = "test_actors_" + System.currentTimeMillis();
         emf = HibernateConfig.getEntityManagerFactoryForTest(testDbName);
         actorsDAO = new ActorsDAO(emf);
@@ -29,7 +28,6 @@ class ActorsDAOTest {
         if (emf != null && emf.isOpen()) {
             emf.close();
         }
-        // Reset test state
         HibernateConfig.setEmfTest(null);
         HibernateConfig.setTest(false);
     }
