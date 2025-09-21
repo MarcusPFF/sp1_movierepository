@@ -28,7 +28,6 @@ class DaoHandlerTest {
     @BeforeEach
     void setUp() {
         HibernateConfig.setTest(true);
-        // Use unique database name for each test to avoid conflicts
         String testDbName = "test_dao_handler_" + System.currentTimeMillis();
         emf = HibernateConfig.getEntityManagerFactoryForTest(testDbName);
         movieDAO = new MovieDAO(emf);

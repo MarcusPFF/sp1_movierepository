@@ -6,7 +6,6 @@ import jakarta.persistence.EntityManagerFactory;
 
 public class Main {
     private static EntityManagerFactory emf;
-    private boolean is;
 
     public static void main(String[] args) throws InterruptedException {
         emf = HibernateConfig.getEntityManagerFactory("movies");
