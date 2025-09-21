@@ -140,10 +140,33 @@ The following dependencies have been added to `pom.xml` for testing:
    - Tests class structure and fields
    - Tests method accessibility
 
-### Test Suite Runner
+## Test Suite Runner
 
 **AllTestsSuite.java** - A comprehensive test suite that runs all test classes in the correct order.
 
+## Running Tests
+
+### Run All Tests
+```bash
+mvn test
+```
+
+### Run Specific Test Class
+```bash
+mvn test -Dtest=MovieDAOTest
+```
+
+### Run Test Suite
+```bash
+mvn test -Dtest=AllTestsSuite
+```
+
+### Run with Coverage
+```bash
+mvn test jacoco:report
+```
+
+## Test Features
 
 ### Comprehensive Coverage
 - Every public method in every class is tested
@@ -165,13 +188,13 @@ The following dependencies have been added to `pom.xml` for testing:
 - Error messages and codes are verified
 - Graceful degradation is tested
 
-### Test Data
+## Test Data
 
 - Tests use synthetic data created within the test methods
 - No external data files are required
 - Test data is isolated and doesn't affect production data
 
-### Best Practices
+## Best Practices
 
 1. **Arrange-Act-Assert Pattern**: All tests follow the AAA pattern
 2. **Descriptive Test Names**: Test method names clearly describe what is being tested
@@ -179,7 +202,7 @@ The following dependencies have been added to `pom.xml` for testing:
 4. **Independent Tests**: Tests don't depend on each other
 5. **Clean Setup/Teardown**: Proper resource management in test lifecycle
 
-### Notes
+## Notes
 
 - All tests are designed to run without modifying existing production code
 - Tests use the same Hibernate configuration as production but with H2 database

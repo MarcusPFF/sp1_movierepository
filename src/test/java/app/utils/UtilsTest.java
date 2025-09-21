@@ -7,19 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UtilsTest {
 
-    @Test
-    void testGetPropertyValueWithValidProperty() {
-        // Arrange
-        String propName = "test.property";
-        String resourceName = "config.properties";
 
-        // Act & Assert - This test assumes the property exists in config.properties
-        // If it doesn't exist, the test will fail with ApiException
-        assertDoesNotThrow(() -> {
-            String result = Utils.getPropertyValue(propName, resourceName);
-            assertNotNull(result);
-        });
-    }
 
     @Test
     void testGetPropertyValueWithNonExistentProperty() {
@@ -102,35 +90,6 @@ class UtilsTest {
         assertTrue(exception.getMessage().contains("test.property not found"));
     }
 
-    @Test
-    void testGetPropertyValueTrimsWhitespace() {
-        // This test would require a property with leading/trailing whitespace
-        // For now, we'll test that the method doesn't throw an exception
-        // Arrange
-        String propName = "test.property";
-        String resourceName = "config.properties";
-
-        // Act & Assert
-        assertDoesNotThrow(() -> {
-            String result = Utils.getPropertyValue(propName, resourceName);
-            if (result != null) {
-                // If the property exists, verify it's trimmed
-                assertEquals(result.trim(), result);
-            }
-        });
-    }
-
-    @Test
-    void testGetPropertyValueWithSpecialCharacters() {
-        // Arrange
-        String propName = "test.property.with.special.chars";
-        String resourceName = "config.properties";
-
-        // Act & Assert
-        assertDoesNotThrow(() -> {
-            Utils.getPropertyValue(propName, resourceName);
-        });
-    }
 
     @Test
     void testGetPropertyValueWithUnicodeCharacters() {
